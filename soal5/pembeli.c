@@ -30,6 +30,7 @@ int enemy_health_status;
 int battle_status;
 //---shop
 int shop_food_stock;
+int shop_counter = 0;
 //---timer
 int elapsedTime;
 int hungry_time;
@@ -86,6 +87,7 @@ void *keypress(void *args)
                     break;
                 case '2':
                     status_scene = STANDBY;
+                    enemy_health_status = 100;
                     break;
             }
         }
@@ -93,9 +95,10 @@ void *keypress(void *args)
         {
             switch(command) {
                 case '1':  
-                    if(shop_food_stock > 0)
+                    if(shop_food_stock - shop_counter> 0) {
                         food_stock++;
-                        shop_food_stock--;
+                        shop_counter++;
+                    }
                     break;
                 case '2': status_scene = STANDBY;
                     break;
@@ -109,12 +112,13 @@ void *permainan(void *args)
     char monster[50];
     strcpy(monster, (void *)args);
     key_t key = 1234;
-    int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
-    int *value = shmat(shmid, NULL, 0);
+    int shmid = shmget(key, 4, IPC_CREAT | 0666);
+    char *value = shmat(shmid, NULL, 0);
     
     while (command != 32)
     {
-        shop_food_stock = *value;
+        memcpy(value + 2, &shop_counter, 2);
+        memcpy(&shop_food_stock, value, 2);
         elapsedTime = (int)time(NULL);
         if(status_scene != BATTLE) {
             if(elapsedTime - hungry_time > 10) {
@@ -141,7 +145,6 @@ void *permainan(void *args)
             health_time = elapsedTime;
             bath_time = elapsedTime - 20 + cooldown_bath_time;
         }
-
         switch(status_scene) {
             case STANDBY:
                 printf("Standby Mode\n");
@@ -163,7 +166,7 @@ void *permainan(void *args)
                 break;
             case BATTLE:
                 printf("Battle Mode\n");
-                printf("Monster's Health : %d\n", health_status);
+                printf("%s's Health : %d\n", monster, health_status);
                 printf("Enemy's Health\t : %d\n", enemy_health_status);
                 printf("Choices\n");
                 printf("1. Attack\n");
@@ -172,7 +175,7 @@ void *permainan(void *args)
                 break;
             case SHOP:
                 printf("Shop Mode\n");
-                printf("Shop food stock : %d\n", shop_food_stock);
+                printf("Shop food stock : %d\n", shop_food_stock - shop_counter);
                 printf("Your food stock : %d\n", food_stock);
                 printf("Choices\n");
                 printf("1. Buy\n");
@@ -183,6 +186,14 @@ void *permainan(void *args)
                 printf("SALAH PENCET BRO\n");
                 system("clear");
                 break;
+        }
+        if(enemy_health_status == 0) {
+            printf("PLAYER WIN.\n");
+            command = 32;
+        }
+        else if(health_status == 0) {
+            printf("GAME OVER.\n");
+            command = 32;
         }
     }
     shmdt(value);
@@ -203,6 +214,7 @@ int main()
     health_time = (int)time(NULL);
     bath_time= (int)time(NULL);
     status_bath = 1;
+    enemy_health_status = 100;
     //--------------------
 
     char nama_monster[50];

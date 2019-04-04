@@ -8,8 +8,8 @@
 #include <termios.h>
 
 char command;
-int shop_food_stack;
-
+int shop_food_stock;
+int food_stock;
 char getch();
 
 void *keypress(void *args)
@@ -18,7 +18,7 @@ void *keypress(void *args)
     while (command != 32)
     {
         command = getch();
-        if(command == '1') shop_food_stack++;
+        if(command == '1') shop_food_stock++;
         else if(command == '2') command = 32;
     }
 }
@@ -26,14 +26,18 @@ void *keypress(void *args)
 void *permainan(void *arg)
 {
     key_t key = 1234;
-    int *value;
+    char *value;
+    int shop_counter  = 0;
     while (command != 32)
     {
-        int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
+        int shmid = shmget(key, 4, IPC_CREAT | 0666);
         value = shmat(shmid, NULL, 0);
-        *value = shop_food_stack;
+        memcpy(value, &shop_food_stock, 2);
+        memcpy(&shop_counter, value + 2, 2);
+        food_stock = shop_food_stock - shop_counter;
+
         printf("Shop\n");
-        printf("Food stock\t: %d\n", shop_food_stack);
+        printf("Food stock\t: %d\n", food_stock);
         printf("Choices\n");
         printf("1. Restock\n");
         printf("2. Exit\n");
