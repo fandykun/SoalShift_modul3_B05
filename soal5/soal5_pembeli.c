@@ -162,7 +162,7 @@ void *permainan(void *args)
                 printf("3. Battle\n");
                 printf("4. Shop\n");
                 printf("5. Exit\n");
-                system("clear");
+                // system("clear");
                 break;
             case BATTLE:
                 printf("Battle Mode\n");
@@ -171,7 +171,7 @@ void *permainan(void *args)
                 printf("Choices\n");
                 printf("1. Attack\n");
                 printf("2. Run\n");
-                system("clear");
+                // system("clear");
                 break;
             case SHOP:
                 printf("Shop Mode\n");
@@ -180,11 +180,11 @@ void *permainan(void *args)
                 printf("Choices\n");
                 printf("1. Buy\n");
                 printf("2. Back\n");
-                system("clear");
+                // system("clear");
                 break;
             default:
                 printf("SALAH PENCET BRO\n");
-                system("clear");
+                // system("clear");
                 break;
         }
         if(enemy_health_status == 0) {
@@ -195,6 +195,8 @@ void *permainan(void *args)
             printf("GAME OVER.\n");
             command = 32;
         }
+        sleep(1);
+        system("clear");
     }
     shmdt(value);
     shmctl(shmid,IPC_RMID,NULL);

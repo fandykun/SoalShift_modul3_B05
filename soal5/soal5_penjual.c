@@ -42,6 +42,8 @@ void *permainan(void *arg)
         printf("Choices\n");
         printf("1. Restock\n");
         printf("2. Exit\n");
+        
+        sleep(1);
         system("clear");
 
         shmdt(value);
