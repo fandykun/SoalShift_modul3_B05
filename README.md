@@ -6,6 +6,13 @@
     3! = 6  
     4! = 24  
     5! = 120  
+###Penjelasan
+#### [Source Code](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal1/soal1.c)
+- Karena diminta untuk menghitung faktorial, maka perlu menyimpan nilai faktorialnya, bisa secara rekursif atau pre-compute.
+- Untuk menyimpan argumen saat run, maka memanfaatkan argc (untuk jumlah argumen di terminal) dan argv untuk setiap argumen yang ditulis
+- Karena argumen berupa char, maka di-convert terlebih dahulu menjadi bilangan/integer menggunakan `atoi(..)`
+- Simpan argumen tersebut dan sorting
+- Masukkan setiap argumen kedalam thread dan run program tersebut.
 
 2. Pada suatu hari ada orang yang ingin berjualan 1 jenis barang secara private, dia memintamu membuat program C dengan spesifikasi sebagai berikut:  
       a.  Terdapat 2 server: server penjual dan server pembeli<br>
