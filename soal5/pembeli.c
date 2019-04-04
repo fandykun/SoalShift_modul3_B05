@@ -215,6 +215,7 @@ int main()
     bath_time= (int)time(NULL);
     status_bath = 1;
     enemy_health_status = 100;
+    battle_status = PLAYER;
     //--------------------
 
     char nama_monster[50];

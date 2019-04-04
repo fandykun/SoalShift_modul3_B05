@@ -28,9 +28,10 @@ void *permainan(void *arg)
     key_t key = 1234;
     char *value;
     int shop_counter  = 0;
+    int shmid;
     while (command != 32)
     {
-        int shmid = shmget(key, 4, IPC_CREAT | 0666);
+        shmid = shmget(key, 4, IPC_CREAT | 0666);
         value = shmat(shmid, NULL, 0);
         memcpy(value, &shop_food_stock, 2);
         memcpy(&shop_counter, value + 2, 2);
@@ -45,6 +46,7 @@ void *permainan(void *arg)
 
         shmdt(value);
     }
+    shmctl(shmid,IPC_RMID,NULL);
 }
 
 void main()
