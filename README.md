@@ -6,7 +6,7 @@
     3! = 6  
     4! = 24  
     5! = 120  
-###Penjelasan
+### Penjelasan
 #### [Source Code](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal1/soal1.c)
 - Karena diminta untuk menghitung faktorial, maka perlu menyimpan nilai faktorialnya, bisa secara rekursif atau pre-compute.
 - Untuk menyimpan argumen saat run, maka memanfaatkan argc (untuk jumlah argumen di terminal) dan argv untuk setiap argumen yang ditulis
@@ -51,7 +51,7 @@
           <li>Spirit_Status Iraj <= 0 (Tampilkan Pesan “Iraj ikut tidur, dan bangun kesiangan bersama Agmal”)</li></ul>
         <li><strong>Syarat Menggunakan Lebih dari 1 Thread</strong></li>
 <br>
-  
+
 4. Buatlah sebuah program C dimana dapat menyimpan list proses yang sedang berjalan (ps -aux) maksimal 10 list proses. Dimana awalnya list proses disimpan dalam di 2 file ekstensi .txt yaitu  SimpanProses1.txt di direktori /home/Document/FolderProses1 dan SimpanProses2.txt di direktori /home/Document/FolderProses2 , setelah itu masing2 file di  kompres zip dengan format nama file KompresProses1.zip dan KompresProses2.zip dan file SimpanProses1.txt dan SimpanProses2.txt akan otomatis terhapus, setelah itu program akan menunggu selama 15 detik lalu program akan mengekstrak kembali file KompresProses1.zip dan KompresProses2.zip 
 <br><strong>Dengan Syarat : <br></strong>
       <ul>
@@ -63,7 +63,21 @@
         <li>Boleh menggunakan system</li>
       </ul>
 <br>
-
+### Penjelasan
+#### [Source Code](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal4/soal4.c)
+- Untuk menampilkan maksimal 10 list proses pada ps -aux dengan menggunakan ````ps -aux | tail -10```
+- Diminta hasil proses tersebut disimpan dalam file maka hasil command tersebut ditambahkan dengan ```(command) > (nama_file)```
+- Diminta setiap list proses tersebut berjalan bersama-sama, maka dengan menggunakan setiap thread untuk setiap proses tersebut.
+- Diminta melakukan kompres .zip hasil file tersebut, maka diperlukan **mutual exclusion/mutex**, menunggu proses penyimpanan file terlebih dahulu.
+```bash
+zip -j /directory/name.zip /directory/filename.txt
+# -j digunakan untuk memasukkan file tanpa direktorinya
+```
+- Diminta mengekstrak file .zip hasil kompres tersebut, maka juga diperlukan **mutual exclusion/mutex**, menunggu proses kompress terlebih dahulu.
+```bash
+unzip /directory/filename.zip -d /directory-tujuan/
+# -d digunakan untuk mengubah direktori tujuannya kemana yang akan di-extract
+```
 5. Angga, adik Jiwang akan berulang tahun yang ke sembilan pada tanggal 6 April besok. Karena lupa menabung, Jiwang tidak mempunyai uang sepeserpun untuk membelikan Angga kado. Kamu sebagai sahabat Jiwang ingin membantu Jiwang membahagiakan adiknya sehingga kamu menawarkan bantuan membuatkan permainan komputer sederhana menggunakan program C. Jiwang sangat menyukai idemu tersebut. <br>Berikut permainan yang Jiwang minta. <br>
       a.  Pemain memelihara seekor monster lucu dalam permainan. Pemain dapat  memberi nama pada monsternya.<br>
       b.  Monster pemain memiliki hunger status yang berawal dengan nilai 200 (maksimalnya) dan nanti akan berkurang 5 tiap 10 detik. Ketika hunger status mencapai angka nol, pemain akan kalah. Hunger status dapat bertambah 15 apabila pemain memberi makan kepada monster, tetapi banyak makanan terbatas dan harus beli di Market.<br>
