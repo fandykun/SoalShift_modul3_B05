@@ -6,175 +6,154 @@
 #include <time.h>
 #include <sys/time.h>
 
-void *control (void *arg);
-void *kowalski (void *arg);
-void *irajSlep (void *arg);
-void *agmalAwoke (void *arg);
-int trigger = 0;
+void *irajTidur (void *spirit);
+void *agmalBangun (void *wakeup);
+int iCount = 0, aCount = 0, closeProgram = 0, trigger = 0;
+char input[40];
 int agmalWakeUp_Status = 0, irajSpirit_Status = 100;
-int iCount = 0, aCount = 0, finishStatus = 0;
-time_t timeStop, timeNow;
 
 int main()
 {
-    int iController, statController, iraj, agmal;
-    pthread_t inputController, statusController;
+    int iraj, agmal;
     pthread_t tIraj, tAgmal;
+   
+   if((iraj = pthread_create(&tIraj, NULL, *irajTidur, NULL)))
+   {
+       printf("Gagal membuat thread \"Iraj\"\n");
+   }
+   
+   if((agmal = pthread_create(&tAgmal, NULL, *agmalBangun, NULL)))
+   {
+       printf("Gagal membuat thread \"Agmal\"\n");
+   }
 
-    if(iController = pthread_create(&inputController, NULL, *control, NULL))
-    {
-        printf("Failed to create thread\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if(statController = pthread_create(&statusController, NULL, *kowalski, NULL))
-    {
-        printf("Failed to create thread\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if(iraj = pthread_create(&tIraj, NULL, *irajSlep, NULL))
-    {
-        printf("Creating thread \"Iraj\" failed\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if(agmal = pthread_create(&tAgmal, NULL, *agmalAwoke, NULL))
-    {
-        printf("Creating thread \"Agmal\" failed\n");
-        exit(EXIT_FAILURE);
-    }
-
-    pthread_join(inputController, NULL);
-    pthread_join(tIraj, NULL);
-    pthread_join(tAgmal, NULL);
+   pthread_join(tIraj, NULL);
+   pthread_join(tAgmal, NULL);
 }
 
-void *control (void *arg)
+void *agmalBangun (void *wakeup)
 {
-    char input[50];
-    
-    while (!finishStatus)
-    {   
-        gets(input);
-        if (strcmp(input, "All Status") == 0 || strcmp(input, "all status") == 0)
+    while(1)
+    {
+        if(closeProgram)
+            break;
+
+        if(aCount > 2)
         {
-            printf("Agmal WakeUp_Status = %d\n", agmalWakeUp_Status);
-            printf("Iraj Spirit_Status = %d\n\n", irajSpirit_Status);
-            memset(input, 0, strlen(input));
+            printf("Fitur Agmal Ayo Bangun disabled 10 s\n");
+            sleep(10);
+            aCount = 0;
+            printf("Fitur Agmal Ayo Bangun enabled\n");
         }
 
-        else if (strcmp(input, "Agmal Ayo Bangun") == 0 || strcmp(input, "agmal ayo bangun") == 0)
+        while(trigger == 0)
         {
-            trigger = 1;
-            strcpy(input, "");
-        }
-
-        else if (strcmp(input, "Iraj Ayo Tidur") == 0 || strcmp(input, "iraj ayo tidur") == 0)
-        {
-            trigger = 2;
-            strcpy(input, "");
-        }
-    }
-
-    printf("Program completed\n");
-}
-
-void *kowalski (void *arg)
-{
-    while(!finishStatus)
-    {   
-        if (aCount == 3 || iCount == 3)
-        {
-            timeStop = time(NULL);
-            while(1)
+            // Berikan input
+            printf("Input : ");
+            gets(input);
+            printf("%d\n", trigger);
+  
+            if(strcmp(input, "All Status") == 0 || strcmp(input, "all status") == 0)
             {
-                timeNow = time(NULL);
-                if(timeNow - timeStop == 10)
+                printf("Agmal WakeUp_Status = %d\n", agmalWakeUp_Status);
+                printf("Iraj Spirit_Status = %d\n", irajSpirit_Status);
+                // memset(input, 0, strlen(input));
+                strcpy(input, "");
+                break;
+            }
+
+            if (strcmp(input, "Agmal Ayo Bangun") == 0 || strcmp(input, "agmal ayo bangun") == 0)
+            {
+                if(aCount > 2)
                 {
-                    if(aCount > 2) {
-                        aCount = 0;
-                        printf("Fitur Agmal Ayo Bangun diaktifkan kembali\n");
+                    printf("Fitur Agmal Ayo Bangun sedang di-disabled\n");
+                    memset(input, 0, strlen(input));
+                }
+                else
+                {
+                    // Tambahkan agmalWakeUp_Status sebanyak 15
+                    // tambah counter untuk mengecek berapa kali
+                    // perintah telah dilaksanakan
+                    agmalWakeUp_Status += 15;
+                    printf("Agmal mulai terbangun dari tidurnya\nWakeUp_Status (+15) : %d\n", agmalWakeUp_Status);
+                    aCount++;
+
+                    if (agmalWakeUp_Status >= 100)
+                    {
+                        printf("Agmal Terbangun, mereka bangun pagi dan berolahraga\n");
+                        closeProgram = 1;
                         break;
                     }
-
-                    else if(iCount > 2) {
-                        iCount = 0;
-                        printf("Fitur Iraj Ayo Tidur diaktifkan kembali\n");
-                        break;
-                    } 
+                    memset(input, 0, strlen(input));
                 }
-                printf("> %lu detik lagi sebelum fungsi diaktifkan\n", timeNow - timeStop);
-                sleep(1);
+            }
+
+            if (strcmp(input, "Iraj Ayo Tidur") == 0 || strcmp(input, "iraj ayo tidur") == 0)
+            {
+                trigger = 1;
+                if(closeProgram)
+                    break;   
+                break;
+            }
+
+            else
+            {
+                memset(input, 0, strlen(input));
+                break;
             }
         }
     }
+
+    printf("Agmal Out with trigger %d\n", trigger);
 }
 
-void *agmalAwoke (void *arg)
+
+void *irajTidur (void *spirit)
 {
-    while(1)
+    while(!closeProgram)
     {
-        if(finishStatus)
-            break;
-
-        /*while(trigger != 1)
+        // Jika perintah "Iraj Ayo Tidur" digunakan lebih dari 3 kali
+        // disable fungsi tersebut selama 10 detik
+        if(iCount > 2)
         {
-        }*/
-        while (trigger == 1){
-            if(aCount < 3)
-            {
-                agmalWakeUp_Status += 15;
-                if(agmalWakeUp_Status < 100)
-                printf("Agmal mulai terbangun dari tidurnya\nWakeUp_Status (+15) : %d\n\n", agmalWakeUp_Status);
-
-                else if (agmalWakeUp_Status >= 100)
-                { 
-                    printf("Agmal Terbangun, mereka bangun pagi dan berolahraga\n");
-                    finishStatus = 1;
-                    break;
-                }
-                aCount++;
-            }
-            else
-            {
-                printf("Fitur Agmal Ayo Bangun sedang di-disabled\n");   
-            }
-
-            trigger = 0;
+            printf("Fitur Iraj Ayo Tidur disabled 10 s\n");
+            memset(input, 0, strlen(input));
+            sleep(10);
+            iCount = 0;
+            printf("Fitur Iraj Ayo Tidur enabled\n");
         }
-    }
-}
-
-void *irajSlep (void *arg)
-{
-    while(1)
-    {       
-        if (finishStatus)
-            break;
-
-        while(trigger == 2){
-            if(iCount < 3)
-            {
-                irajSpirit_Status -= 20;
-                if(irajSpirit_Status > 0)
-                    printf("Iraj mulai merasa mengantuk.\nSpirit_Status (-20) : %d\n\n", irajSpirit_Status);
-                
-                else if (irajSpirit_Status <= 0)
-                {
-                    printf("Iraj ikut tidur, dan bangun kesiangan bersama Agmal\n");
-                    finishStatus = 1;
-                    break;
-                }
-
-                iCount++;
-            }
-            else
+        
+        while(trigger)
+        {
+            if(iCount > 2)
             {
                 printf("Fitur Iraj Ayo Tidur sedang di-disabled\n");
+                memset(input, 0, strlen(input));
             }
-
+            else
+            {
+                // Kurangi irajSpirit_Status sebanyak 20,
+                // tambah counter untuk mengecek seberapa kali
+                // perintah telah dilaksanakan
+                irajSpirit_Status -= 20;
+                printf("Iraj mulai merasa mengantuk.\nSpirit_Status (-20) : %d\n", irajSpirit_Status);
+                iCount++;
+                
+                // Jika irajSpirit_Status berada tepat atau dibawah nol,
+                // maka program akan berhenti.
+                if(irajSpirit_Status <= 0)
+                {
+                    printf("Iraj ikut tidur, dan bangun kesiangan bersama Agmal\n");
+                    closeProgram = 1;
+                    break;
+                }
+                memset(input, 0, strlen(input));
+            }
             trigger = 0;
+            printf("Trigger Happy %d\n", trigger);
+            break;
         }
     }
+    printf("Iraj Out with trigger %d\n", trigger);
 }
+
