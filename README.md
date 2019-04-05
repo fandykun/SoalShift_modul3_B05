@@ -30,13 +30,21 @@
       g. Server penjual akan mencetak stok saat ini setiap 5 detik sekali  
       <strong>h.  Menggunakan thread, socket, shared memory</strong>  
 
+### Penjelasan
+- Dalam soal nomor 2, diminta 2 program server, dan masing - masing server hanya bisa terhubung dengan satu client saja.
+- Program [server pembeli](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal2/soal2_pembeli.c) dan [server penjual](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal2/soal2_penjual.c) dapat dilihat dalam source code berikut.
+- Karena nilai stok juga harus dicetak setiap 5 detik, dibuatlah 2 thread **t1** untuk menghubungkan server dan client, dan **t2** untuk mencetak banyaknya stok barang di server. 
+- Karena nilai stok terus berubah berdasarkan akses dari klien, maka menggunakan **shared memory** antara kedua server.
+- Program [client](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal2/soal2_client.c) dapat dilihat dalam source code berikut.
+- Untuk menghubungkan klien dengan salah satu server, dibuat pilihan. Pilihan dari klien akan menghubungkan klien dengan server yang diinginkan melalui memberi nilai **PORT** sesuai dengan port server.
+- Untuk menjalankan program, buat executable untuk server, dan buat 2 executable dari file client. Masing - masing executable kemudian dijalankan, dimulai dari server.
     
-3. Agmal dan Iraj merupakan 2 sahabat yang sedang kuliah dan hidup satu kostan, sayangnya mereka mempunyai gaya hidup yang berkebalikan, dimana Iraj merupakan laki-laki yang sangat sehat,rajin berolahraga dan bangun tidak pernah kesiangan sedangkan Agmal hampir menghabiskan setengah umur hidupnya hanya untuk tidur dan ‘ngoding’. Dikarenakan mereka sahabat yang baik, Agmal dan iraj sama-sama ingin membuat satu sama lain mengikuti gaya hidup mereka dengan cara membuat Iraj sering tidur seperti Agmal, atau membuat Agmal selalu bangun pagi seperti Iraj. Buatlah suatu program C untuk menggambarkan kehidupan mereka dengan spesifikasi sebagai berikut:  <br>
-      a. Terdapat 2 karakter Agmal dan Iraj<br>
-      b. Kedua karakter memiliki status yang unik<br>
-        <ul><li> Agmal mempunyai WakeUp_Status, di awal program memiliki status 0</li>
-        <li> Iraj memiliki Spirit_Status, di awal program memiliki status 100</li>
-        <li> Terdapat 3 Fitur utama</li>
+3. Agmal dan Iraj merupakan 2 sahabat yang sedang kuliah dan hidup satu kostan, sayangnya mereka mempunyai gaya hidup yang berkebalikan, dimana Iraj merupakan laki-laki yang sangat sehat,rajin berolahraga dan bangun tidak pernah kesiangan sedangkan Agmal hampir menghabiskan setengah umur hidupnya hanya untuk tidur dan ‘ngoding’. Dikarenakan mereka sahabat yang baik, Agmal dan iraj sama-sama ingin membuat satu sama lain mengikuti gaya hidup mereka dengan cara membuat Iraj sering tidur seperti Agmal, atau membuat Agmal selalu bangun pagi seperti Iraj. Buatlah suatu program C untuk menggambarkan kehidupan mereka dengan spesifikasi sebagai berikut:  
+      a. Terdapat 2 karakter Agmal dan Iraj  
+      b. Kedua karakter memiliki status yang unik  
+            - Agmal mempunyai WakeUp_Status, di awal program memiliki status 0  
+            - Iraj memiliki Spirit_Status, di awal program memiliki status 100  
+            - Terdapat 3 Fitur utama  
           <ul><li> All Status, yaitu menampilkan status kedua sahabat<br>
           Ex:<br> 
             Agmal WakeUp_Status = 75 <br>
@@ -79,33 +87,32 @@ unzip /directory/filename.zip -d /directory-tujuan/
 # -d digunakan untuk mengubah direktori tujuannya kemana yang akan di-extract
 ```
 
-5. Angga, adik Jiwang akan berulang tahun yang ke sembilan pada tanggal 6 April besok. Karena lupa menabung, Jiwang tidak mempunyai uang sepeserpun untuk membelikan Angga kado. Kamu sebagai sahabat Jiwang ingin membantu Jiwang membahagiakan adiknya sehingga kamu menawarkan bantuan membuatkan permainan komputer sederhana menggunakan program C. Jiwang sangat menyukai idemu tersebut. 
-Berikut permainan yang Jiwang minta:
-  a.  Pemain memelihara seekor monster lucu dalam permainan. Pemain dapat  memberi nama pada monsternya.
-  b.  Monster pemain memiliki hunger status yang berawal dengan nilai 200 (maksimalnya) dan nanti akan berkurang 5 tiap 10 detik. Ketika hunger status mencapai angka nol, pemain akan kalah. Hunger status dapat bertambah 15 apabila pemain memberi makan kepada monster, tetapi banyak makanan terbatas dan harus beli di Market.
-  c.  Monster pemain memiliki hygiene status yang berawal dari 100 dan nanti berkurang 10 tiap 30 detik. Ketika hygiene status mencapai angka nol, pemain akan kalah. Hygiene status' dapat bertambah 30 hanya dengan memandikan monster. Pemain dapat memandikannya setiap 20 detik(cooldownnya 20 detik).
-  d.  Monster pemain memiliki health status yang berawal dengan nilai 300. Variabel ini bertambah (regenerasi)daa 5 setiap 10 detik ketika monster dalam keadaan standby.
-  e.  Monster pemain dapat memasuki keadaan battle. Dalam keadaan ini, food status(fitur b), hygiene status'(fitur c), dan ‘regenerasi’(fitur d) tidak akan berjalan. Health status dari monster dimulai dari darah saat monster pemain memasuki battle. Monster pemain akan bertarung dengan monster NPC yang memiliki darah 100. Baik monster pemain maupun NPC memiliki serangan sebesar 20. Monster pemain dengan monster musuh akan menyerang secara bergantian. 
-    f.  Fitur shop, pemain dapat membeli makanan sepuas-puasnya selama stok di toko masih tersedia.<br>
-      <ul>
-      <li>Pembeli (terintegrasi dengan game)</li>
-      <ul>
-        <li>Dapat mengecek stok makanan yang ada di toko.</li>
-        <li>Jika stok ada, pembeli dapat membeli makanan.</li>
-      </ul>
-      <li>Penjual (terpisah)</li>
-      <ul>
-        <li>Bisa mengecek stok makanan yang ada di toko</li>
-        <li>Penjual dapat menambah stok makanan.</li>
-      </ul>
-      </ul>
+5. Angga, adik Jiwang akan berulang tahun yang ke sembilan pada tanggal 6 April besok. Karena lupa menabung, Jiwang tidak mempunyai uang sepeserpun untuk membelikan Angga kado. Kamu sebagai sahabat Jiwang ingin membantu Jiwang membahagiakan adiknya sehingga kamu menawarkan bantuan membuatkan permainan komputer sederhana menggunakan program C. Jiwang sangat menyukai idemu tersebut.  
+Berikut permainan yang Jiwang minta:  
+      a.  Pemain memelihara seekor monster lucu dalam permainan. Pemain dapat  memberi nama pada monsternya.  
+      b.  Monster pemain memiliki hunger status yang berawal dengan nilai 200 (maksimalnya) dan nanti akan berkurang 5 tiap 10 detik. Ketika hunger status mencapai angka nol, pemain akan kalah. Hunger status dapat bertambah 15 apabila pemain memberi makan kepada monster, tetapi banyak makanan terbatas dan harus beli di Market.  
+      c.  Monster pemain memiliki hygiene status yang berawal dari 100 dan nanti berkurang 10 tiap 30 detik. Ketika hygiene status mencapai angka nol, pemain akan kalah. Hygiene status' dapat bertambah 30 hanya dengan memandikan monster. Pemain dapat memandikannya setiap 20 detik(cooldownnya 20 detik).  
+      d.  Monster pemain memiliki health status yang berawal dengan nilai 300. Variabel ini bertambah (regenerasi)daa 5 setiap 10 detik ketika monster dalam keadaan standby.  
+      e.  Monster pemain dapat memasuki keadaan battle. Dalam keadaan ini, food status(fitur b), hygiene status'(fitur c), dan ‘regenerasi’(fitur d) tidak akan berjalan. Health status dari monster dimulai dari darah saat monster pemain memasuki battle. Monster pemain akan bertarung dengan monster NPC yang memiliki darah 100. Baik monster pemain maupun NPC memiliki serangan sebesar 20. Monster pemain dengan monster musuh akan menyerang secara bergantian.   
+        f.  Fitur shop, pemain dapat membeli makanan sepuas-puasnya selama stok di toko masih tersedia.<br>
+          <ul>
+          <li>Pembeli (terintegrasi dengan game)</li>
+          <ul>
+            <li>Dapat mengecek stok makanan yang ada di toko.</li>
+            <li>Jika stok ada, pembeli dapat membeli makanan.</li>
+          </ul>
+          <li>Penjual (terpisah)</li>
+          <ul>
+            <li>Bisa mengecek stok makanan yang ada di toko</li>
+            <li>Penjual dapat menambah stok makanan.</li>
+          </ul>
+          </ul>
 
 Spesifikasi program:
-  <ol>
-    <li>Program mampu mendeteksi input berupa key press. (Program bisa berjalan tanpa perlu menekan tombol enter)</li>
-    <li>Program terdiri dari 3 scene yaitu standby, battle, dan shop.</li>
-    <li>Pada saat berada di standby scene, program selalu menampilkan health status, hunger status, hygiene status, stok makanan tersisa, dan juga status kamar mandi (“Bath is ready” jika bisa digunakan, “Bath will be ready in [bath cooldown]s” jika sedang cooldown). Selain itu program selalu menampilkan 5 menu, yaitu memberi makan, mandi, battle, shop, dan exit. Contoh : </li>
-
+1. Program mampu mendeteksi input berupa key press. (Program bisa berjalan tanpa perlu menekan tombol enter)
+2. Program terdiri dari 3 scene yaitu standby, battle, dan shop.
+3. Pada saat berada di standby scene, program selalu menampilkan health status, hunger status, hygiene status, stok makanan tersisa, dan juga status kamar mandi (“Bath is ready” jika bisa digunakan, “Bath will be ready in [bath cooldown]s” jika sedang cooldown). Selain itu program selalu menampilkan 5 menu, yaitu memberi makan, mandi, battle, shop, dan exit. Contoh :
+    
     ```
     Standby Mode
     Health : [health status]
@@ -121,7 +128,7 @@ Spesifikasi program:
     5.  Exit
     ```
 
-    <li>Pada saat berada di battle scene, program selalu menampilkan health status milik pemain dan monster NPC. Selain itu, program selalu menampilkan 2 menu yaitu serang atau lari. Contoh :</li>
+4. Pada saat berada di battle scene, program selalu menampilkan health status milik pemain dan monster NPC. Selain itu, program selalu menampilkan 2 menu yaitu serang atau lari. Contoh :
 
     ```bash
     Battle Mode
@@ -132,25 +139,25 @@ Spesifikasi program:
     2.  Run
     ```
 
-    <li> Pada saat berada di shop scene versi pembeli, program selalu menampilkan food stock toko dan milik pemain. Selain itu, program selalu menampilkan 2 menu yaitu beli dan kembali ke standby scene. Contoh :</li>
+5. Pada saat berada di shop scene versi pembeli, program selalu menampilkan food stock toko dan milik pemain. Selain itu, program selalu menampilkan 2 menu yaitu beli dan kembali ke standby scene. Contoh :
 
     ```bash
     Shop Mode
     Shop food stock : [shop food stock]
     Your food stock : [your food stock]
     Choices
-    Buy
-    Back
+    1.  Buy
+    2.  Back
     ```
 
-    <li>Pada program penjual, program selalu menampilkan food stock toko. Selain itu, program juga menampilkan 2 menu yaitu restock dan exit. Contoh :</li>
+6. Pada program penjual, program selalu menampilkan food stock toko. Selain itu, program juga menampilkan 2 menu yaitu restock dan exit. Contoh :
 
     ```bash
     Shop
     Food stock : [shop food stock]
     Choices
-    Restock
-    Exit
+    1.  Restock
+    2.  Exit
     ```
 
-    <li>Pastikan terminal hanya mendisplay status detik ini sesuai scene terkait (hint: menggunakan system(“clear”))</li></ul>
+7. Pastikan terminal hanya mendisplay status detik ini sesuai scene terkait (hint: menggunakan system(“clear”))</li></ul>
