@@ -62,11 +62,11 @@
         <li>Wajib Menggunakan Multithreading</li>
         <li>Boleh menggunakan system</li>
       </ul>
-<br>
+
 ### Penjelasan
 #### [Source Code](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal4/soal4.c)
-- Untuk menampilkan maksimal 10 list proses pada ps -aux dengan menggunakan ````ps -aux | tail -10```
-- Diminta hasil proses tersebut disimpan dalam file maka hasil command tersebut ditambahkan dengan ```(command) > (nama_file)```
+- Untuk menampilkan maksimal 10 list proses pada ps -aux dengan menggunakan `ps -aux | tail -10`
+- Diminta hasil proses tersebut disimpan dalam file maka hasil command tersebut ditambahkan dengan `(command) > (nama_file)`
 - Diminta setiap list proses tersebut berjalan bersama-sama, maka dengan menggunakan setiap thread untuk setiap proses tersebut.
 - Diminta melakukan kompres .zip hasil file tersebut, maka diperlukan **mutual exclusion/mutex**, menunggu proses penyimpanan file terlebih dahulu.
 ```bash
@@ -78,13 +78,15 @@ zip -j /directory/name.zip /directory/filename.txt
 unzip /directory/filename.zip -d /directory-tujuan/
 # -d digunakan untuk mengubah direktori tujuannya kemana yang akan di-extract
 ```
-5. Angga, adik Jiwang akan berulang tahun yang ke sembilan pada tanggal 6 April besok. Karena lupa menabung, Jiwang tidak mempunyai uang sepeserpun untuk membelikan Angga kado. Kamu sebagai sahabat Jiwang ingin membantu Jiwang membahagiakan adiknya sehingga kamu menawarkan bantuan membuatkan permainan komputer sederhana menggunakan program C. Jiwang sangat menyukai idemu tersebut. <br>Berikut permainan yang Jiwang minta. <br>
-      a.  Pemain memelihara seekor monster lucu dalam permainan. Pemain dapat  memberi nama pada monsternya.<br>
-      b.  Monster pemain memiliki hunger status yang berawal dengan nilai 200 (maksimalnya) dan nanti akan berkurang 5 tiap 10 detik. Ketika hunger status mencapai angka nol, pemain akan kalah. Hunger status dapat bertambah 15 apabila pemain memberi makan kepada monster, tetapi banyak makanan terbatas dan harus beli di Market.<br>
-      c.  Monster pemain memiliki hygiene status yang berawal dari 100 dan nanti berkurang 10 tiap 30 detik. Ketika hygiene status mencapai angka nol, pemain akan kalah. Hygiene status' dapat bertambah 30 hanya dengan memandikan monster. Pemain dapat memandikannya setiap 20 detik(cooldownnya 20 detik).<br>
-      d.  Monster pemain memiliki health status yang berawal dengan nilai 300. Variabel ini bertambah (regenerasi)daa 5 setiap 10 detik ketika monster dalam keadaan standby.<br>
-      e.  Monster pemain dapat memasuki keadaan battle. Dalam keadaan ini, food status(fitur b), hygiene status'(fitur c), dan ‘regenerasi’(fitur d) tidak akan berjalan. Health status dari monster dimulai dari darah saat monster pemain memasuki battle. Monster pemain akan bertarung dengan monster NPC yang memiliki darah 100. Baik monster pemain maupun NPC memiliki serangan sebesar 20. Monster pemain dengan monster musuh akan menyerang secara bergantian. 
-      f.  Fitur shop, pemain dapat membeli makanan sepuas-puasnya selama stok di toko masih tersedia.<br>
+
+5. Angga, adik Jiwang akan berulang tahun yang ke sembilan pada tanggal 6 April besok. Karena lupa menabung, Jiwang tidak mempunyai uang sepeserpun untuk membelikan Angga kado. Kamu sebagai sahabat Jiwang ingin membantu Jiwang membahagiakan adiknya sehingga kamu menawarkan bantuan membuatkan permainan komputer sederhana menggunakan program C. Jiwang sangat menyukai idemu tersebut. 
+Berikut permainan yang Jiwang minta:
+  a.  Pemain memelihara seekor monster lucu dalam permainan. Pemain dapat  memberi nama pada monsternya.
+  b.  Monster pemain memiliki hunger status yang berawal dengan nilai 200 (maksimalnya) dan nanti akan berkurang 5 tiap 10 detik. Ketika hunger status mencapai angka nol, pemain akan kalah. Hunger status dapat bertambah 15 apabila pemain memberi makan kepada monster, tetapi banyak makanan terbatas dan harus beli di Market.
+  c.  Monster pemain memiliki hygiene status yang berawal dari 100 dan nanti berkurang 10 tiap 30 detik. Ketika hygiene status mencapai angka nol, pemain akan kalah. Hygiene status' dapat bertambah 30 hanya dengan memandikan monster. Pemain dapat memandikannya setiap 20 detik(cooldownnya 20 detik).
+  d.  Monster pemain memiliki health status yang berawal dengan nilai 300. Variabel ini bertambah (regenerasi)daa 5 setiap 10 detik ketika monster dalam keadaan standby.
+  e.  Monster pemain dapat memasuki keadaan battle. Dalam keadaan ini, food status(fitur b), hygiene status'(fitur c), dan ‘regenerasi’(fitur d) tidak akan berjalan. Health status dari monster dimulai dari darah saat monster pemain memasuki battle. Monster pemain akan bertarung dengan monster NPC yang memiliki darah 100. Baik monster pemain maupun NPC memiliki serangan sebesar 20. Monster pemain dengan monster musuh akan menyerang secara bergantian. 
+    f.  Fitur shop, pemain dapat membeli makanan sepuas-puasnya selama stok di toko masih tersedia.<br>
       <ul>
       <li>Pembeli (terintegrasi dengan game)</li>
       <ul>
@@ -98,57 +100,57 @@ unzip /directory/filename.zip -d /directory-tujuan/
       </ul>
       </ul>
 
-      Spesifikasi program:
-      <ol>
-      <li>Program mampu mendeteksi input berupa key press. (Program bisa berjalan tanpa perlu menekan tombol enter)</li>
-      <li>Program terdiri dari 3 scene yaitu standby, battle, dan shop.</li>
-      <li>Pada saat berada di standby scene, program selalu menampilkan health status, hunger status, hygiene status, stok makanan tersisa, dan juga status kamar mandi (“Bath is ready” jika bisa digunakan, “Bath will be ready in [bath cooldown]s” jika sedang cooldown). Selain itu program selalu menampilkan 5 menu, yaitu memberi makan, mandi, battle, shop, dan exit. Contoh : </li>
-  
-      ```bash
-      Standby Mode
-      Health : [health status]
-      Hunger : [hunger status]
-      Hygiene : [hygiene status]
-      Food left : [your food stock]
-      Bath will be ready in [cooldown]s
-      Choices
-      1.  Eat
-      2.  Bath
-      3.  Battle
-      4.  Shop
-      5.  Exit
-      ```
-  
-      <li>Pada saat berada di battle scene, program selalu menampilkan health status milik pemain dan monster NPC. Selain itu, program selalu menampilkan 2 menu yaitu serang atau lari. Contoh :</li>
+Spesifikasi program:
+  <ol>
+    <li>Program mampu mendeteksi input berupa key press. (Program bisa berjalan tanpa perlu menekan tombol enter)</li>
+    <li>Program terdiri dari 3 scene yaitu standby, battle, dan shop.</li>
+    <li>Pada saat berada di standby scene, program selalu menampilkan health status, hunger status, hygiene status, stok makanan tersisa, dan juga status kamar mandi (“Bath is ready” jika bisa digunakan, “Bath will be ready in [bath cooldown]s” jika sedang cooldown). Selain itu program selalu menampilkan 5 menu, yaitu memberi makan, mandi, battle, shop, dan exit. Contoh : </li>
 
-      ```bash
-      Battle Mode
-      Monster’s Health : [health status]
-      Enemy’s Health : [enemy health status]
-      Choices
-      1.  Attack
-      2.  Run
-      ```
+    ```
+    Standby Mode
+    Health : [health status]
+    Hunger : [hunger status]
+    Hygiene : [hygiene status]
+    Food left : [your food stock]
+    Bath will be ready in [cooldown]s
+    Choices
+    1.  Eat
+    2.  Bath
+    3.  Battle
+    4.  Shop
+    5.  Exit
+    ```
 
-      <li>Pada saat berada di shop scene versi pembeli, program selalu menampilkan food stock toko dan milik pemain. Selain itu, program selalu menampilkan 2 menu yaitu beli dan kembali ke standby scene. Contoh :</li>
+    <li>Pada saat berada di battle scene, program selalu menampilkan health status milik pemain dan monster NPC. Selain itu, program selalu menampilkan 2 menu yaitu serang atau lari. Contoh :</li>
 
-      ```bash
-      Shop Mode
-      Shop food stock : [shop food stock]
-      Your food stock : [your food stock]
-      Choices
-      Buy
-      Back
-      ```
+    ```bash
+    Battle Mode
+    Monster’s Health : [health status]
+    Enemy’s Health : [enemy health status]
+    Choices
+    1.  Attack
+    2.  Run
+    ```
 
-      <li>Pada program penjual, program selalu menampilkan food stock toko. Selain itu, program juga menampilkan 2 menu yaitu restock dan exit. Contoh :</li>
+    <li> Pada saat berada di shop scene versi pembeli, program selalu menampilkan food stock toko dan milik pemain. Selain itu, program selalu menampilkan 2 menu yaitu beli dan kembali ke standby scene. Contoh :</li>
 
-      ```bash
-      Shop
-      Food stock : [shop food stock]
-      Choices
-      Restock
-      Exit
-      ```
+    ```bash
+    Shop Mode
+    Shop food stock : [shop food stock]
+    Your food stock : [your food stock]
+    Choices
+    Buy
+    Back
+    ```
 
-      <li>Pastikan terminal hanya mendisplay status detik ini sesuai scene terkait (hint: menggunakan system(“clear”))</li></ul>
+    <li>Pada program penjual, program selalu menampilkan food stock toko. Selain itu, program juga menampilkan 2 menu yaitu restock dan exit. Contoh :</li>
+
+    ```bash
+    Shop
+    Food stock : [shop food stock]
+    Choices
+    Restock
+    Exit
+    ```
+
+    <li>Pastikan terminal hanya mendisplay status detik ini sesuai scene terkait (hint: menggunakan system(“clear”))</li></ul>

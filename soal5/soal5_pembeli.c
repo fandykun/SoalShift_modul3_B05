@@ -29,8 +29,7 @@ int food_stock;
 int enemy_health_status;
 int battle_status;
 //---shop
-int shop_food_stock;
-int shop_counter = 0;
+int *shop_food_stock;
 //---timer
 int elapsedTime;
 int hungry_time;
@@ -95,9 +94,9 @@ void *keypress(void *args)
         {
             switch(command) {
                 case '1':  
-                    if(shop_food_stock - shop_counter> 0) {
+                    if(*shop_food_stock> 0) {
                         food_stock++;
-                        shop_counter++;
+                        *shop_food_stock = *shop_food_stock - 1;
                     }
                     break;
                 case '2': status_scene = STANDBY;
@@ -113,12 +112,10 @@ void *permainan(void *args)
     strcpy(monster, (void *)args);
     key_t key = 1234;
     int shmid = shmget(key, 4, IPC_CREAT | 0666);
-    char *value = shmat(shmid, NULL, 0);
+    shop_food_stock = shmat(shmid, NULL, 0);
     
     while (command != 32)
     {
-        memcpy(value + 2, &shop_counter, 2);
-        memcpy(&shop_food_stock, value, 2);
         elapsedTime = (int)time(NULL);
         if(status_scene != BATTLE) {
             if(elapsedTime - hungry_time > 10) {
@@ -175,7 +172,7 @@ void *permainan(void *args)
                 break;
             case SHOP:
                 printf("Shop Mode\n");
-                printf("Shop food stock : %d\n", shop_food_stock - shop_counter);
+                printf("Shop food stock : %d\n", *shop_food_stock);
                 printf("Your food stock : %d\n", food_stock);
                 printf("Choices\n");
                 printf("1. Buy\n");
@@ -198,7 +195,7 @@ void *permainan(void *args)
         sleep(1);
         system("clear");
     }
-    shmdt(value);
+    shmdt(shop_food_stock);
     shmctl(shmid,IPC_RMID,NULL);
 }
 
