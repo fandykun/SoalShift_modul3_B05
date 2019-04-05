@@ -40,25 +40,33 @@
 - Untuk menjalankan program, buat executable untuk server, dan buat 2 executable dari file client. Masing - masing executable kemudian dijalankan, dimulai dari server.
     
 3. Agmal dan Iraj merupakan 2 sahabat yang sedang kuliah dan hidup satu kostan, sayangnya mereka mempunyai gaya hidup yang berkebalikan, dimana Iraj merupakan laki-laki yang sangat sehat,rajin berolahraga dan bangun tidak pernah kesiangan sedangkan Agmal hampir menghabiskan setengah umur hidupnya hanya untuk tidur dan ‘ngoding’. Dikarenakan mereka sahabat yang baik, Agmal dan iraj sama-sama ingin membuat satu sama lain mengikuti gaya hidup mereka dengan cara membuat Iraj sering tidur seperti Agmal, atau membuat Agmal selalu bangun pagi seperti Iraj. Buatlah suatu program C untuk menggambarkan kehidupan mereka dengan spesifikasi sebagai berikut:  
-      a. Terdapat 2 karakter Agmal dan Iraj  
-      b. Kedua karakter memiliki status yang unik  
+      1. Terdapat 2 karakter Agmal dan Iraj  
+      2. Kedua karakter memiliki status yang unik  
             - Agmal mempunyai WakeUp_Status, di awal program memiliki status 0  
             - Iraj memiliki Spirit_Status, di awal program memiliki status 100  
             - Terdapat 3 Fitur utama  
-          <ul><li> All Status, yaitu menampilkan status kedua sahabat<br>
-          Ex:<br> 
-            Agmal WakeUp_Status = 75 <br>
-            Iraj Spirit_Status = 30</li>
-            <li>“Agmal Ayo Bangun” menambah WakeUp_Status Agmal sebesar 15 point</li>
-            <li>“Iraj Ayo Tidur” mengurangi Spirit_Status Iraj sebanyak 20 point</li></ul>
-          <li>Terdapat Kasus yang unik dimana:</li>
-          <ul><li>Jika Fitur “Agmal Ayo Bangun” dijalankan sebanyak 3 kali, maka Fitur “Iraj Ayo Tidur” Tidak bisa dijalankan selama 10 detik (Dengan mengirim pesan ke sistem “Fitur Iraj Ayo Tidur disabled 10 s”)</li>
-          <li>Jika Fitur  “Iraj Ayo Tidur” dijalankan sebanyak 3 kali, maka Fitur “Agmal Ayo Bangun” Tidak bisa dijalankan selama 10 detik (Dengan mengirim pesan ke sistem “Agmal Ayo Bangun disabled 10 s”)</li></ul>
-        <li>Program akan berhenti jika Salah Satu :</li>
-          <ul><li>WakeUp_Status Agmal >= 100 (Tampilkan Pesan “Agmal Terbangun,mereka bangun pagi dan berolahraga”)</li>
-          <li>Spirit_Status Iraj <= 0 (Tampilkan Pesan “Iraj ikut tidur, dan bangun kesiangan bersama Agmal”)</li></ul>
-        <li><strong>Syarat Menggunakan Lebih dari 1 Thread</strong></li>
-<br>
+                - All Status, yaitu menampilkan status kedua sahabat. Ex: 
+                    Agmal WakeUp_Status = 75 <br>
+                    Iraj Spirit_Status = 30
+                 - “Agmal Ayo Bangun” menambah WakeUp_Status Agmal sebesar 15 point
+                 - “Iraj Ayo Tidur” mengurangi Spirit_Status Iraj sebanyak 20 point
+            - Terdapat Kasus yang unik dimana:
+                 - Jika Fitur “Agmal Ayo Bangun” dijalankan sebanyak 3 kali, maka Fitur “Iraj Ayo Tidur” Tidak bisa dijalankan selama 10 detik (Dengan mengirim pesan ke sistem “Fitur Iraj Ayo Tidur disabled 10 s”)
+                 - Jika Fitur  “Iraj Ayo Tidur” dijalankan sebanyak 3 kali, maka Fitur “Agmal Ayo Bangun” Tidak bisa dijalankan selama 10 detik (Dengan mengirim pesan ke sistem “Agmal Ayo Bangun disabled 10 s”)
+            - Program akan berhenti jika Salah Satu :
+                 - WakeUp_Status Agmal >= 100 (Tampilkan Pesan “Agmal Terbangun,mereka bangun pagi dan berolahraga”)
+                 - Spirit_Status Iraj <= 0 (Tampilkan Pesan “Iraj ikut tidur, dan bangun kesiangan bersama Agmal”)
+            - **Syarat Menggunakan Lebih dari 1 Thread**
+
+### Penjelasan
+#### [Source Code](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal3/soal3.c)
+- Terdapat 2 thread dalam program ini, **tIraj** untuk mengecek dan mengatur kondisi **irajSpirit_Status**, dan **tAgmal** untuk mengecek dan mengatur kondisi **agmalWakeUp_Status**.
+- Input dimasukkan ke dalam fungsi main, kemudian berdasarkan input, akan ditentukan arah jalannya program
+    - Jika input adalah "All Status", maka arah jalan program adalah ke fungsi main, mencetak nilai irajSpirit_Status dan agmalWakeUp_Status saat ini.
+    - Jika input adalah "Iraj Ayo Tidur", maka **flagI** berubah dari 0 menjadi 1, dan arah jalan program adalah ke thread tIraj.
+    - Jika input adalah "Agmal Ayo Bangun", maka **flagA** berubah dari 0 menjadi 1, dan arah jalan program adalah ke threan tAgmal.
+- Selagi kondisi program terhenti belum tercapai, **flagF** akan bernilai 0. Jika salah satu thread merubah nilai flagF, maka program akan berhenti, dan pesan akan ditampilkan.
+    - Untuk mencegah fungsi gets(input) untuk meminta input lagi, bahkan setelah flagF bernilai 1, digunakan fungsi usleep(10000). Fungsi dari usleep() ini adalah untuk membuat program jeda selama beberapa microsekon (usleep(10000) berarti jeda selama 10000 microsekon = 10 ms).
 
 4. Buatlah sebuah program C dimana dapat menyimpan list proses yang sedang berjalan (ps -aux) maksimal 10 list proses. Dimana awalnya list proses disimpan dalam di 2 file ekstensi .txt yaitu  SimpanProses1.txt di direktori /home/Document/FolderProses1 dan SimpanProses2.txt di direktori /home/Document/FolderProses2 , setelah itu masing2 file di  kompres zip dengan format nama file KompresProses1.zip dan KompresProses2.zip dan file SimpanProses1.txt dan SimpanProses2.txt akan otomatis terhapus, setelah itu program akan menunggu selama 15 detik lalu program akan mengekstrak kembali file KompresProses1.zip dan KompresProses2.zip 
 <br><strong>Dengan Syarat : <br></strong>
