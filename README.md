@@ -169,3 +169,12 @@ Spesifikasi program:
     ```
 
 7. Pastikan terminal hanya mendisplay status detik ini sesuai scene terkait (hint: menggunakan system(“clear”))</li></ul>
+
+### Penjelasan
+#### [Source Code](https://github.com/fandykun/SoalShift_modul3_B05/tree/master/soal5)
+
+- Pada program pembeli, disiapkan dua buah thread, satu untuk keypress dan satu untuk program permainan
+- Diminta mendisplay status **detik ini**, maka digunakan `sleep(1)`pada thread tersebut
+- Untuk mengupdate status yang berdasarkan waktu, maka dapat memanfaatkan `time(NULL)` atau bisa juga dengan mengcounter waktu jalannya thread tersebut.
+- Karena pembeli dan penjual melakukan komunikasi, maka dapat memanfaatkan **shared memory**.
+- Pembeli melakukan counter-- karena membeli, sedangkan penjual melakukan counter++ karena restock.
