@@ -66,7 +66,10 @@
     - Jika input adalah "Iraj Ayo Tidur", maka **flagI** berubah dari 0 menjadi 1, dan arah jalan program adalah ke thread tIraj.
     - Jika input adalah "Agmal Ayo Bangun", maka **flagA** berubah dari 0 menjadi 1, dan arah jalan program adalah ke threan tAgmal.
 - Selagi kondisi program terhenti belum tercapai, **flagF** akan bernilai 0. Jika salah satu thread merubah nilai flagF, maka program akan berhenti, dan pesan akan ditampilkan.
-    - Untuk mencegah fungsi gets(input) untuk meminta input lagi, bahkan setelah flagF bernilai 1, digunakan fungsi usleep(10000). Fungsi dari usleep() ini adalah untuk membuat program jeda selama beberapa microsekon (usleep(10000) berarti jeda selama 10000 microsekon = 10 ms).
+- Variabel **aCount** dan **iCount** masing - masing berguna untuk mengecek seberapa kali perintah "Agmal Ayo Bangun" dan "Iraj Ayo Tidur" diberikan.
+    - Jika **aCount** bernilai lebih dari 2 (perintah dijalankan lebih dari 3 kali), maka **tIraj** akan sleep selama 10 detik. (Fitur “Iraj Ayo Tidur” Tidak bisa dijalankan selama 10 detik).
+    - Jika **iCount** bernilai lebih dari 2, maka **tAgmal** akan sleep selama 10 detik (Fitur “Agmal Ayo Bangun” Tidak bisa dijalankan selama 10 detik).
+    - Untuk setiap perintah "Agmal Ayo Bangun" atau "Iraj Ayo Tidur", tambah nilai aCount atau iCount sebanyak 1.
 
 4. Buatlah sebuah program C dimana dapat menyimpan list proses yang sedang berjalan (ps -aux) maksimal 10 list proses. Dimana awalnya list proses disimpan dalam di 2 file ekstensi .txt yaitu  SimpanProses1.txt di direktori /home/Document/FolderProses1 dan SimpanProses2.txt di direktori /home/Document/FolderProses2 , setelah itu masing2 file di  kompres zip dengan format nama file KompresProses1.zip dan KompresProses2.zip dan file SimpanProses1.txt dan SimpanProses2.txt akan otomatis terhapus, setelah itu program akan menunggu selama 15 detik lalu program akan mengekstrak kembali file KompresProses1.zip dan KompresProses2.zip 
 <br><strong>Dengan Syarat : <br></strong>
