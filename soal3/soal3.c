@@ -31,11 +31,6 @@ int main()
    {
         if(flagF)
             break;
-        else if (flagI || flagA)
-        {
-            usleep(10000);
-            continue;
-        }
         else
         {
             gets(input);
@@ -87,14 +82,14 @@ void *irajTidur (void *arg)
         {
             irajSpirit_Status -= 20;
             printf("Iraj mulai merasa mengantuk.\nSpirit_Status (-20) : %d\n", irajSpirit_Status);
-            iCount++;
+            aCount++;
             
             // Jika irajSpirit_Status berada tepat atau dibawah nol,
             // maka program akan berhenti.
             if(irajSpirit_Status <= 0)
             {
                 printf("Iraj ikut tidur, dan bangun kesiangan bersama Agmal\n");
-                flagF = 1;
+                exit(0);
             }
 
             flagI = 0;
@@ -120,16 +115,15 @@ void *agmalBangun (void *arg)
         {
             agmalWakeUp_Status += 15;
             printf("Agmal mulai terbangun dari tidurnya\nWakeUp_Status (+15) : %d\n", agmalWakeUp_Status);
-            aCount++;
+            iCount++;
 
             if (agmalWakeUp_Status >= 100)
             {
-            printf("Agmal Terbangun, mereka bangun pagi dan berolahraga\n");
-            flagF = 1;
+                printf("Agmal Terbangun, mereka bangun pagi dan berolahraga\n");
+                exit(0);
             }
 
             flagA = 0;
-
         }
     }
 }
