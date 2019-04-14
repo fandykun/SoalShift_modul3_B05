@@ -33,7 +33,7 @@
 ### Penjelasan
 - Dalam soal nomor 2, diminta 2 program server, dan masing - masing server hanya bisa terhubung dengan satu client saja.
 - Program [server pembeli](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal2/soal2_pembeli.c) dan [server penjual](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal2/soal2_penjual.c) dapat dilihat dalam source code berikut.
-- Karena nilai stok juga harus dicetak setiap 5 detik, dibuatlah 2 thread **t1** untuk menghubungkan server dan client, dan **t2** untuk mencetak banyaknya stok barang di server. 
+- Karena dalam server penjual, nilai stok juga harus dicetak setiap 5 detik, dibuatlah 2 thread **t1** untuk menghubungkan server dan client, dan **t2** untuk mencetak banyaknya stok barang di server. 
 - Karena nilai stok terus berubah berdasarkan akses dari klien, maka menggunakan **shared memory** antara kedua server.
 - Program [client](https://github.com/fandykun/SoalShift_modul3_B05/blob/master/soal2/soal2_client.c) dapat dilihat dalam source code berikut.
 - Untuk menghubungkan klien dengan salah satu server, dibuat pilihan. Pilihan dari klien akan menghubungkan klien dengan server yang diinginkan melalui memberi nilai **PORT** sesuai dengan port server.
