@@ -33,11 +33,10 @@ int main(int argc, char const *argv[]) {
     else if (choice == 2)
     {
         PORT = 8080;
-        printf("Tersambung di Port : %hu\n", PORT);
     }
     else
     {
-        printf("Input salah - anda akan dikeluarkan dari koneksi....\n");
+        printf("Input salah\n");
     }
   
     serv_addr.sin_family = AF_INET;
@@ -48,48 +47,48 @@ int main(int argc, char const *argv[]) {
        then copies the network address structure to &serv_addr.sin_addr.
        &serv_addr.sin_addr is written in network byte order. 
     */
+
     if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) {
         printf("\nInvalid address/ Address not supported \n");
-        return -1;
     }
     
     /*  Connect a socket to a server address as stated by serv_addr struct
         with the size of the serv_addr struct
     */
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\nKoneksi gagal....\n");
-        return -1;
-    }
+    
+    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
     /*  Sample command here
     send(sock , hello , strlen(hello) , 0 );
     printf("Hello message sent\n");
     valread = read( sock , buffer, 1024);
-    printf("%s\n",buffer );
+    printf("%s\n",buffer ); 
     */
 
-    char input[15];
-    printf("input command: ");
-    scanf("%s", input);
+    while(1) {
+        
+        char input[15];
+        printf("input command: ");
+        scanf("%s", input);
 
-    if (choice == 1 && strcmp(input, "beli") == 0)
-    {   
-        send(sock, input, strlen(input), 0);
-        printf("Permintaan pembelian dalam proses\n");
-        valread = read(sock, buffer, 1024);
-        printf("%s\n", buffer);
-    }    
-    else if (choice == 2 && strcmp(input, "tambah") == 0)
-    {
-        send(sock, input, strlen(input), 0);
-        printf("Permintaan pembelian dalam proses\n");
-        valread = read(sock, buffer, 1024);
-        printf("%s\n", buffer);
-    }
-    else
-    {
-        printf("Input salah - anda akan dikeluarkan dari koneksi....\n");
-    }
+        if (choice == 1 && strcmp(input, "beli") == 0)
+        {   
+            send(sock, input, strlen(input), 0);
+            valread = read(sock, buffer, 1024);
+            printf("%s\n", buffer);
+        }    
+        else if (choice == 2 && strcmp(input, "tambah") == 0)
+        {
+            send(sock, input, strlen(input), 0);
+            valread = read(sock, buffer, 1024);
+            printf("%s\n", buffer);
+        }
+        else
+        {
+            printf("Input salah...\n");
+        }
 
+        memset(input, 0, strlen(input));
+    }
     return 0;
 }

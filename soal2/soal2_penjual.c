@@ -8,14 +8,22 @@
 #include <pthread.h>
 #define PORT 8080
 
+int *stock;
+
 void *connection (void *arg);
-void *printStock (void *arg);
-int *stock, endSignal = 0;
+void *printStock (void *arg)
+{
+    while(1)
+    {
+        printf("> Stok sekarang = %d\n", *stock);
+        sleep(5);
+    }
+}
 
 int main(int argc, char const *argv[]) {
-    key_t key = 12;
     pthread_t connector, stocks;
 
+    key_t key = 12;
     int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
     stock = shmat(shmid, NULL, 0);
 
@@ -32,6 +40,9 @@ int main(int argc, char const *argv[]) {
 
     pthread_join(connector, NULL);
     pthread_join(stocks, NULL);
+    *stock = 0;
+    shmdt(stock);
+    shmctl(shmid, IPC_RMID, NULL);
     return 0;
 }
 
@@ -42,6 +53,7 @@ void *connection (void *arg)
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
+
 
     // Creating a socket
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -73,24 +85,18 @@ void *connection (void *arg)
         exit(EXIT_FAILURE);
     }
 
-    printf("Tersambung dengan satu klien\n");
-    valread = read( new_socket ,buffer, 1024);
-    printf("Server menerima perintah %s\n", buffer);
+    while(1){
+        valread = read( new_socket ,buffer, 1024);
+        printf("Server menerima perintah %s\n", buffer);
 
-    char hello[100];
-    
-    *stock = *stock + 1;
-    sprintf(hello, "Stok ditambahkan! Sekarang barang ada %d", *stock);
-    send(new_socket , hello , strlen(hello) , 0 );
-    printf("Transaksi berhasil\n");
-    endSignal = 1;
-}
-
-void *printStock (void *arg)
-{
-    while(!endSignal)
-    {
-        printf("> Stok sekarang = %d\n", *stock);
-        sleep(5);
+        char hello[100];
+        
+        if(strcmp(buffer, "tambah") == 0)
+        {
+            *stock = *stock + 1;
+            sprintf(hello, "Stok ditambahkan! Sekarang barang ada %d", *stock);
+            send(new_socket , hello , strlen(hello), 0);
+            printf("Transaksi berhasil\n");
+        }
     }
 }

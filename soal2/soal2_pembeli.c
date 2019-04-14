@@ -9,29 +9,25 @@
 #define PORT 7777
 
 void *connection (void *arg);
-void *printStock (void *arg);
-int *stock, endSignal = 0;
+int *stock;
 
 int main(int argc, char const *argv[]) {
     key_t key = 12;
-    pthread_t connector, stocks;
+    pthread_t connector;
 
     int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
     stock = shmat(shmid, NULL, 0);
 
-    int t1, t2;
+    int t1;
     if((t1 = pthread_create(&connector, NULL, *connection, NULL)))
     {
         printf("Creating thread 1 failed\n");
     }
-    
-    if((t2 = pthread_create(&stocks, NULL, *printStock, NULL)))
-    {
-        printf("Creating thread 2 failed\n");
-    }
 
     pthread_join(connector, NULL);
-    pthread_join(stocks, NULL);
+
+    shmdt(stock);
+    shmctl(shmid, IPC_RMID, NULL);
     return 0;
 }
 
@@ -72,35 +68,27 @@ void *connection (void *arg)
         perror("accept");
         exit(EXIT_FAILURE);
     }
+    
+    while (1){
+        valread = read(new_socket ,buffer, 1024);
+        printf("Server menerima perintah %s\n", buffer);
 
-    printf("Tersambung dengan satu klien\n");
-
-    valread = read(new_socket ,buffer, 1024);
-    printf("Server menerima perintah %s\n", buffer);
-
-    char hello[100];
-    if(*stock > 0)
-    {
-        *stock = *stock - 1;
-        sprintf(hello, "Barang terbeli! Tersisa %d lagi", *stock);
-        send(new_socket , hello , strlen(hello) , 0);
-        printf("Transaksi berhasil\n");
-        endSignal = 1;
-    }
-    else
-    {
-        strcpy(hello, "Maaf, stok barang sedang habis");
-        send(new_socket, hello, strlen(hello), 0);
-        printf("Transaksi gagal.\nSilahkan tambah stok anda\n");
-        endSignal = 1;
-    }
-}
-
-void *printStock (void *arg)
-{
-    while(!endSignal)
-    {
-        printf("> Stok sekarang = %d\n", *stock);
-        sleep(5);
+        char hello[100];
+        if(strcmp(buffer, "beli") == 0)
+        {
+            if(*stock > 0)
+            {
+                *stock = *stock - 1;
+                strcpy(hello, "Transaksi berhasil\n");
+                send(new_socket , hello , strlen(hello) , 1);
+                printf("Transaksi berhasil\n");
+            }
+            else
+            {
+                strcpy(hello, "Transaksi gagal\n");
+                send(new_socket, hello, strlen(hello), 1);
+                printf("Transaksi gagal.\nSilahkan tambah stok anda\n");
+            }
+        }
     }
 }
